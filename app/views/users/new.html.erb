@@ -1,2 +1,57 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<div class="row">
+  <br>
+  <br>
+
+  <%= form_for(@user) do |f| %>
+    <div class="card card-container">
+      <%= link_to '#' do %>
+        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" onclick="avatar(event);" />
+      <% end %>
+      <div id="my_form" class="form-group">
+        <div style="margin:auto;text-align:center;">
+          <span class="label label-info">Name</span>
+        </div>
+        <p></p>
+        <%= f.text_field :name, class: "form-control" %>
+        <%= f.hidden_field :avatar, id: "hidden_input_avatar" %>
+        <hr>
+        <div style="margin:auto;text-align:center;">
+          <span class="label label-info">Description</span>
+        </div>
+        <p></p>
+        <%= f.text_area :description, class: "form-control" %>
+        <hr>
+        <div style="margin:auto;text-align:center;">
+          <span class="label label-info">Files</span>
+        </div>
+        <p></p>
+        <button class="btn btn-info btn-block" type="button" onclick="files(event);">
+          <i class="fa fa-user"></i>
+          Upload Files
+        </button>
+        <p></p>
+        <%= f.hidden_field :files, id: "hidden_input_files" %>
+      </div>
+
+      <div class="form-group text-xs-center">
+        <button class="btn btn-primary btn-block" type="submit">Create User</button>
+      </div>
+    </div><!-- /card-container -->
+  <% end %>
+</div>
+
+<script>
+  var filestack_key = "AKh38zQ5RSTa8V1wkU8hTz";
+  function avatar(e) {
+    e.preventDefault();
+    var picker = filestack.init(filestack_key);
+    picker.pick({
+        accept: 'image/*',
+        fromSources: ['local_file_system']
+    }).then(function(Blob) {
+      console.log("Blob received, url=" + Blob.filesUploaded[0].url);
+      $("#profile-img").attr("src", Blob.filesUploaded[0].url);
+      $("#hidden_input_avatar").val(Blob.filesUploaded[0].url);
+    });
+  }
+</script>
