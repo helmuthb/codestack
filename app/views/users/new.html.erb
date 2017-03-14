@@ -42,6 +42,23 @@
 
 <script>
   var filestack_key = "AKh38zQ5RSTa8V1wkU8hTz";
+  function files(e) {
+    e.preventDefault();
+    var picker = filestack.init(filestack_key);
+    picker.pick({
+        accept: 'image/*',
+        fromSources: ['local_file_system'],
+        maxFiles: 3
+    }).then(function(Blobs) {
+      var my_blobs = [];
+      for (var i=0; i<Blobs.filesUploaded.length; i++) {
+        my_blobs.push(Blobs.filesUploaded[i].url);
+        $("#my_form").append("<p><i class='glyphicon glyphicon-file'></i> " +
+          Blobs.filesUploaded[i].name + "</p>");
+      }
+      $("#hidden_input_files").val(my_blobs);
+    });
+  }
   function avatar(e) {
     e.preventDefault();
     var picker = filestack.init(filestack_key);
@@ -49,7 +66,6 @@
         accept: 'image/*',
         fromSources: ['local_file_system']
     }).then(function(Blob) {
-      console.log("Blob received, url=" + Blob.filesUploaded[0].url);
       $("#profile-img").attr("src", Blob.filesUploaded[0].url);
       $("#hidden_input_avatar").val(Blob.filesUploaded[0].url);
     });

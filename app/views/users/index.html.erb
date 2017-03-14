@@ -2,24 +2,28 @@
   <br>
   <br>
   <br>
-  <div class="col-md-4">
-    <div class="well well-sm" style="min-height:250px;">
-      <div class="media">
-        <a class="thumbnail pull-left" href="#">
-          <%= image_tag "file.png", class: "media-object", size: 80 %>
-        </a>
-        <br>
-        <div class="media-body">
-          <h4 class="media-heading">name</h4>
-          <p style="margin-top:5px;">description</p>
-          <hr>
-          <i><p class="text-center">Uploaded Files:</p></i>
-          <p class="text-center">
-            <%= link_to '#', class: "btn btn-xs btn-info", style: "margin-top:5px;" do %>
-              <span class="glyphicon glyphicon-file"></span> Download
-            <% end %>
+  <% @users.each do |user| %>
+    <div class="col-md-4">
+      <div class="well well-sm" style="min-height:250px;">
+        <div class="media">
+          <a class="thumbnail pull-left" href="#">
+            <%= image_tag(user.avatar, class: "media-object", size: 80) %>
+          </a>
+          <br>
+          <div class="media-body">
+            <h4 class="media-heading"><%= user.name %></h4>
+            <p style="margin-top:5px;"><%= user.description %></p>
+            <hr>
+            <i><p class="text-center">Uploaded Files:</p></i>
+            <p class="text-center">
+              <% user.file_list.each do |file| %>
+                <%= link_to file, target: "_blank", class: "btn btn-xs btn-info", style: "margin-top:5px;" do %>
+                  <span class="glyphicon glyphicon-file"></span> Download
+                <% end %>
+              <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
